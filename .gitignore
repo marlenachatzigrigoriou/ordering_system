@@ -1,0 +1,23 @@
+# IDE-specific files and directories
+.project
+.settings/
+.classpath
+.metadata/
+
+# Maven output files and directories
+target/
+
+# Compiled class file
+*.class
+
+# vim files
+*.swp
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
