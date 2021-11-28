@@ -1,0 +1,29 @@
+language: java   # Define the language
+
+jdk:             # Define the execution environments  
+  - openjdk11  
+  # - oraclejdk11
+
+branches:        # Execute job only on specific branch commits
+  only:  
+    - main  
+    - development
+
+# sudo: required         # Linux administrator permissions 
+# before_install:   
+#   - sudo apt update    # Update the package list
+
+# install:  
+#   - sudo apt install maven –y     # Install required packages
+
+before_script:        # Run commands  
+  # - cd project        # Enter Maven root directory
+  - ls -la
+
+script:               # Build the project  
+  - mvn clean package jacoco:report
+
+after_success:        # Notify users about the result  
+#   - cd sourcecodeanalyzer
+  - scripts/runtest.sh
+  - echo “Process terminated successfully”
