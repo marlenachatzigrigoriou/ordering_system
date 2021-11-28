@@ -20,10 +20,13 @@ Requirements for the software and other tools to build, test and push
 3. Build the executable Java application with: 
       
           mvn package jacoco:report
-4. Run the executable by executing:
+4. Browse ordering_system (your current) folder: ..\target\site\jacoco and click on index.html .
+   
+   Now you can see on your browser the jacoco code coverage report.
+5. Run the executable by executing:
 
           java -jar ./target/mandatory_project-0.0.1-SNAPSHOT-jar-with-dependencies.jar
-5. Interact with the system
+6. Interact with the system
 
 #### Login
 These are some usernames and passwords you can use:
