@@ -69,12 +69,23 @@ public class ProductDAOTest {
 		ArrayList<Product> actual = pdao.listProductsOfOrder(((IncomingOrder) incomingOrdersInTheSystem.get(0)),
 				productsInTheSystem);
 		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testListProductsOfOrderPrint() {
+		ArrayList<Product> expected = new ArrayList<Product>();
+		expected.add(productsInTheSystem.get(0));
+		expected.add(productsInTheSystem.get(2));
+		expected.add(productsInTheSystem.get(1));
+		pdao.listProductsOfOrder(((IncomingOrder) incomingOrdersInTheSystem.get(0)),
+				productsInTheSystem);
 		Assert.assertEquals(
 				"0 | Silver Pan 893 , 120.0 inches , 1.0 kg , Aluminum , 40.0€ \r\n"
 						+ "2 | Silver Pot 833 , 120.0 inches , 1.5 kg , Aluminum , 50.0€ \r\n"
 						+ "1 | Silver Pro Pan 999 , 130.0 inches , 0.9 kg , Cast Iron , 50.0€",
 				systemOutRule.getLog().trim());
 	}
+	
 
 	@Test
 	public void testPrintProductsOfOutgoingOrder() {
