@@ -28,15 +28,15 @@ Requirements for the software and other tools to build, test and push
 #### Login
 These are some usernames and passwords you can use:
 
-(the stared ones have already made some orders) 
+(the underlined ones have already made some orders) 
   - Salesman:
       - lalu21 : swde7$8451RT4Hho
       - <ins>embo20 : 5d845dT85#YhiY</ins>
       - vasa21 : yy8Ae!5g6Top
-      - pant23 : divf8T7!h569R    *
+      - <ins>pant23 : divf8T7!h569R</ins>
   - Warehouse staff:
-      - jach23 : asw85S!k8O0w     *
-      - fikre22 : c8vf5frRR47f!d8 *
+      - <ins>jach23 : asw85S!k8O0w<ins>
+      - <ins>fikre22 : c8vf5frRR47f!d8</ins>
       - nice19 : t7v8s5edfgvkT5G!
       - matj24 : u2bj#f88p85O5Pdx
    - Manager:
