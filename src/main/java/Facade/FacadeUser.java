@@ -53,8 +53,8 @@ public class FacadeUser {
 	 * @param usersInTheSystem the stored in the memory users
 	 * @return the User object
 	 */
-	public User login(ArrayList<User> usersInTheSystem) {
-		return UserDAO.login(usersInTheSystem);
+	public User login(ArrayList<User> usersInTheSystem, Scanner scanner) {
+		return UserDAO.login(usersInTheSystem, scanner);
 	}
 
 	/**

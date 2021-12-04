@@ -47,7 +47,7 @@ public class DemoClient {
 			if (!exit.equals("0")) {
 				System.out.println("Login"); 
 				FacadeUser fu = new FacadeUser();
-				User user_obj = fu.login(usersInTheSystem);
+				User user_obj = fu.login(usersInTheSystem, scanner);
 				String user_category = user_obj.getCategory();
 
 				if (user_category.equals("Salesman") && !action.equals("logout")) {

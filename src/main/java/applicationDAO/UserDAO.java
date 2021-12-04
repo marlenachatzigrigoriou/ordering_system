@@ -62,10 +62,11 @@ public abstract class UserDAO {
 	 * Login user in the system.
 	 * 
 	 * @param usersInTheSystem the stored in the memory users
+	 * @param scanner scanner
 	 * @return the loged in user object
 	 */
-	public static User login(ArrayList<User> usersInTheSystem) {
-		Scanner scanner = new Scanner(System.in);
+	public static User login(ArrayList<User> usersInTheSystem, Scanner scanner) {
+//		Scanner scanner = new Scanner(System.in);
 		boolean false_credentials = true;
 		User user_obj = null;
 		while (false_credentials) {
@@ -80,7 +81,7 @@ public abstract class UserDAO {
 				false_credentials = false;
 			}
 		}
-		scanner.close();
+//		scanner.close();
 		System.out.println("Welcome, " + user_obj.getFull_name() + "!");
 		return user_obj;
 	}
