@@ -16,7 +16,10 @@ Requirements for the software and other tools to build, test and push
 1. Clone the repository to a local folder:
 
           git clone https://github.com/marlenachatzigrigoriou/ordering_system.git
-2. Open the command line in your cloned reporitory and build the executable Java application with:
+2. Enter your cloned reporitory 
+   
+           cd ordering_system
+   and build the executable Java application with:
           
           mvn package
 3. Create the Jacoco report: 
