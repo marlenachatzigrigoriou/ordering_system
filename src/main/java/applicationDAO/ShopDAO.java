@@ -3,20 +3,43 @@ package applicationDAO;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Facade.FacadeShop;
 import application.Shop;
+import facade.FacadeShop;
 
+/**
+ * Shop DAO class that contains the process of the Shop objects.
+ * 
+ * @author marlenachatzigrigoriou
+ */
 public class ShopDAO {
 
+	/**
+	 * Stores the given shop in the memory.
+	 * 
+	 * @param shopsInTheSystem the stored in the memory shops
+	 * @param s                the given shop
+	 */
 	public void storeShopsInMemory(ArrayList<Shop> shopsInTheSystem, Shop s) {
 		shopsInTheSystem.add(s);
 	}
 
+	/**
+	 * Prints the given shop details.
+	 * 
+	 * @param shop the given Shop object
+	 */
 	public void viewShop(Shop shop) {
 		System.out.println(shop.getShop_id() + " | " + shop.getShop_name() + ", Address: " + shop.getShop_address()
 				+ ", Manager: " + shop.getShop_manager() + ", Industry: " + shop.getShop_industry_code());
 	}
 
+	/**
+	 * Returns the shop with the given shop id.
+	 * 
+	 * @param shop_id          the given shop's id
+	 * @param shopsInTheSystem the stored in the memory shops
+	 * @return the Shop object
+	 */
 	public Shop getShopById(int shop_id, ArrayList<Shop> shopsInTheSystem) {
 		for (Shop shop : shopsInTheSystem) {
 			if (shop.getShop_id() == shop_id) {
@@ -26,6 +49,13 @@ public class ShopDAO {
 		return null;
 	}
 
+	/**
+	 * Choose shop.
+	 * 
+	 * @param shopsInTheSystem the stored in the memory shops
+	 * @param scanner          scanner
+	 * @return the chosen shop
+	 */
 	public int chooseShop(ArrayList<Shop> shopsInTheSystem, Scanner scanner) {
 		System.out.println("Available shops: ");
 		FacadeShop fs = new FacadeShop();
@@ -53,5 +83,5 @@ public class ShopDAO {
 		}
 		return shop_id;
 	}
-	
+
 }

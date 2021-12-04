@@ -43,6 +43,7 @@ public class StockDAOTest {
 		Assert.assertEquals(expected, sdao.getStockByStockId(1, stockOfProductsInTheSystem));
 		// no case getStockByStockId returns null, because i check the input before
 		// calling the method
+		Assert.assertNull(sdao.getStockByStockId(8, stockOfProductsInTheSystem));
 	}
 
 	@Test
@@ -93,6 +94,15 @@ public class StockDAOTest {
 				outgoingOrdersInTheSystem, suppliersInTheSystem);
 		Assert.assertEquals(expected, actuals);
 	}
+	
+	@Test
+	public void testCheckStockCapacityEnoughCase2() throws IOException {
+		boolean expected = true;
+		productsInTheSystem = dg.productsGenerator();
+		boolean actuals = sdao.checkStockCapacity(0, 0, stockOfProductsInTheSystem, productsInTheSystem,
+				outgoingOrdersInTheSystem, suppliersInTheSystem);
+		Assert.assertEquals(expected, actuals);
+	}
 
 	@Test
 	public void test1CheckStockCapacityLowerThanStockLowerLimitCase() throws IOException {
@@ -120,6 +130,14 @@ public class StockDAOTest {
 	public void testCheckStockCapacityNotEnoughCase() throws IOException {
 		boolean expected = false;
 		boolean actuals = sdao.checkStockCapacity(3, 26, stockOfProductsInTheSystem, productsInTheSystem,
+				outgoingOrdersInTheSystem, suppliersInTheSystem);
+		Assert.assertEquals(expected, actuals);
+	}
+	
+	@Test
+	public void testCheckStockCapacityNotEnoughCase2() throws IOException {
+		boolean expected = false;
+		boolean actuals = sdao.checkStockCapacity(2, 200, stockOfProductsInTheSystem, productsInTheSystem,
 				outgoingOrdersInTheSystem, suppliersInTheSystem);
 		Assert.assertEquals(expected, actuals);
 	}

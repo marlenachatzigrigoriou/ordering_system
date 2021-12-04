@@ -6,66 +6,50 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import Facade.FacadeOrder;
 import application.Product;
 import application.Shop;
 import application.Stock;
 import application.User;
+import facade.FacadeOrder;
 import application.Order;
 import application.OrderFactory;
 import application.IncomingOrder;
 
-
-/***
+/**
+ * Incoming order DAO class that contains the process of the IncomingOrder
+ * objects.
  * 
- * @author marlenachatzigrigoriou  The purpose of this class is to find the 
- *                  minimum moves that a knight has to do from his source position to his 
- *                  destination. The algorithm implements Breadth First Search in a Generic Tree.
- * @since November 2021
+ * @author marlenachatzigrigoriou
  */
 public class IncomingOrderDAO extends OrderDAO {
-
-
-    // one HashMap that contains in each order_id = key --> all the required ids to define a whole order
-    // i have it as static --> that is because i want the list to keep the data of the class it is in. if i take it off, the ddao.listAllIncomingOrderInformation 
-    // in the demo.java will "restart" the map and it will not contain data, so, the listAllIncomingOrderInformation will print nothing
-	// (incoming_order, [[salesman_id], [shop_id], [products_ids], [items_ids]])
-	
-    /*
-    * The root node of the generic tree
-    */
+	/**
+	 * The HashMap contains in each (order_id=)key, all the required ids to define a
+	 * whole order, ex. (incoming_order, [[salesman_id], [shop_id], [products_ids],
+	 * [items_ids]])
+	 */
 	private static HashMap<IncomingOrder, ArrayList<ArrayList<Integer>>> allIncomingOrderInformationInTheSystem = new HashMap<IncomingOrder, ArrayList<ArrayList<Integer>>>();
 
-    /***
-    * Checks if the knight is able to move to 
-    * coordinates (x,y) of the chessboard.
-    * A knight cannot go out of the chessboard.
-    * 
-    * @author marlenachatzigrigoriou
-    * @param x coordinate x
-    * @param y coordinate y
-    * @param board_width chessbord width
-    * @param board_height chessbord height
-    */
+	/**
+	 * Getter method of allIncomingOrderInformationInTheSystem.
+	 * 
+	 * @return allIncomingOrderInformationInTheSystem
+	 */
 	public HashMap<IncomingOrder, ArrayList<ArrayList<Integer>>> getAllIncomingOrderInformationInTheSystem() {
 		return allIncomingOrderInformationInTheSystem;
 	}
 
-	
-//	@Override
-//	public void viewOrder(Order order) {
-//		IncomingOrder ino = (IncomingOrder) order;
-//		System.out.println("ID:  " + ino.getOrder_id() + " | Status: " + ino.getOrder_status() + ", Date: " + ino.getOrder_date()
-//				+ ", Total_cost: " + ino.getTotal_cost() + "€ (discount factored in total cost: "
-//				+ ino.getOrder_discount() + ")");
-//	}
-
+	/**
+	 * Stores the incoming order in the memory.
+	 * 
+	 * @param incomingOrdersInTheSystem all the incoming orders stored in the memory
+	 * @param o                         the incoming order to be stored
+	 * @return all the incoming orders stored in the memory
+	 */
 	@Override
 	public ArrayList<Order> storeOrdersInMemory(ArrayList<Order> incomingOrdersInTheSystem, Order o) {
 		incomingOrdersInTheSystem.add(o);
 		return incomingOrdersInTheSystem;
 	}
-
 
 	@Override
 	public ArrayList<Integer> getOrdersByUserId(int user_id) {
@@ -79,6 +63,16 @@ public class IncomingOrderDAO extends OrderDAO {
 		return orders_ids;
 	}
 
+	/**
+	 * Stores in the allIncomingOrderInformationInTheSystem HashMap all incoming
+	 * order's information.
+	 * 
+	 * @param order        the Order object to be stored
+	 * @param salesman_id  the user_id of the user that submitted the order
+	 * @param shop_id      the shop_id that the order is for
+	 * @param products_ids the product ids of the products included in the order
+	 * @param items_ids    the item ids of the items that correspond to the products
+	 */
 	@Override
 	public void storeAllOrderInformationInMemory(Order order, ArrayList<Integer> salesman_id,
 			ArrayList<Integer> shop_id, ArrayList<Integer> products_ids, ArrayList<Integer> items_ids) {
@@ -90,13 +84,28 @@ public class IncomingOrderDAO extends OrderDAO {
 		allIncomingOrderInformationInTheSystem.put((IncomingOrder) order, order_info);
 	}
 
+	/**
+	 * Prints all the details (order, products, items, costs, shop, salesman) of
+	 * each stored in the memory incoming order.
+	 * 
+	 * @param productsInTheSystem the stored in the memory products
+	 * @param usersInTheSystem    the stored in the memory users
+	 * @param shopsInTheSystem    the stored in the memory shops
+	 */
 	public void listAllIncomingOrderInformation(ArrayList<Product> productsInTheSystem,
-			ArrayList<User> usersInTheSystem, ArrayList<Shop> shopsInTheSystem) { // order+product+items+shop+salesman
+			ArrayList<User> usersInTheSystem, ArrayList<Shop> shopsInTheSystem) {
 		for (IncomingOrder i : getAllIncomingOrderInformationInTheSystem().keySet()) {
 			viewIncomingOrderInformation(i, productsInTheSystem, usersInTheSystem, shopsInTheSystem);
 		}
 	}
 
+	/**
+	 * Prints all the details (name, items, final cost) for each product in the
+	 * incoming order.
+	 * 
+	 * @param productsInTheSystem the stored in the memory products
+	 * @param i                   the IncomingOrder object
+	 */
 	public void printProductsOfIncomingOrder(ArrayList<Product> productsInTheSystem, IncomingOrder i) {
 		ArrayList<Integer> products_ids = getAllIncomingOrderInformationInTheSystem().get(i).get(2);
 		ArrayList<Integer> items_quantity = getAllIncomingOrderInformationInTheSystem().get(i).get(3);
@@ -111,8 +120,16 @@ public class IncomingOrderDAO extends OrderDAO {
 			}
 		}
 	}
-    
-    
+
+	/**
+	 * Prints all the details (order, products, items, costs, shop, salesman) of the
+	 * incoming order.
+	 * 
+	 * @param i                   the IncomingOrder object
+	 * @param productsInTheSystem the stored in the memory products
+	 * @param usersInTheSystem    the stored in the memory users
+	 * @param shopsInTheSystem    the stored in the memory shops
+	 */
 	public void viewIncomingOrderInformation(IncomingOrder i, ArrayList<Product> productsInTheSystem,
 			ArrayList<User> usersInTheSystem, ArrayList<Shop> shopsInTheSystem) {
 		System.out.println("____   ____   ____   ____   ____   ____");
@@ -127,9 +144,21 @@ public class IncomingOrderDAO extends OrderDAO {
 		System.out.print("Purchase from: ");
 		int shop_id = getAllIncomingOrderInformationInTheSystem().get(i).get(1).get(0);
 		shdao.viewShop(shdao.getShopById(shop_id, shopsInTheSystem));
-		
+
 	}
 
+	/**
+	 * Prints a summary (products, items, final cost, shop) of the given incoming
+	 * order.
+	 * 
+	 * @param products_items      a 2-dimensional array; product ids in the first
+	 *                            column, item ids corresponding to the product ones
+	 *                            in the second column
+	 * @param discount            the discount on the incoming order
+	 * @param shop_id             the shop id of the shop for which the order is for
+	 * @param productsInTheSystem the stored in the memory products
+	 * @param shopsInTheSystem    the stored in the memory shops
+	 */
 	public static void showIncomingOrderSummary(int[][] products_items, double discount, int shop_id,
 			ArrayList<Product> productsInTheSystem, ArrayList<Shop> shopsInTheSystem) {
 
@@ -153,10 +182,16 @@ public class IncomingOrderDAO extends OrderDAO {
 		shdao.viewShop(shdao.getShopById(shop_id, shopsInTheSystem));
 		System.out.println();
 	}
-    
-    
 
-
+	/**
+	 * Prints all the orders that were submitted for the selected shop.
+	 * 
+	 * @param productsInTheSystem       the stored in the memory products
+	 * @param usersInTheSystem          the stored in the memory users
+	 * @param shopsInTheSystem          the stored in the memory shops
+	 * @param incomingOrdersInTheSystem all the incoming orders stored in the memory
+	 * @param scanner                   scanner
+	 */
 	public void listOrdersFromShop(ArrayList<Product> productsInTheSystem, ArrayList<User> usersInTheSystem,
 			ArrayList<Shop> shopsInTheSystem, ArrayList<Order> incomingOrdersInTheSystem, Scanner scanner) {
 		ShopDAO sdao = new ShopDAO();
@@ -172,8 +207,17 @@ public class IncomingOrderDAO extends OrderDAO {
 			System.out.println("No orders from this shop yet.");
 		}
 	}
-    
-    
+
+	/**
+	 * Prints all the orders that were submitted by the given salesman.
+	 *
+	 * @param productsInTheSystem       the stored in the memory products
+	 * @param usersInTheSystem          the stored in the memory users
+	 * @param shopsInTheSystem          the stored in the memory shops
+	 * @param incomingOrdersInTheSystem all the incoming orders stored in the memory
+	 * @param user_obj                  the salesman
+	 * @return the order ids of the orders submitted by the given salesman
+	 */
 	public ArrayList<Integer> listOrdersFromSalemanUser(ArrayList<Product> productsInTheSystem,
 			ArrayList<User> usersInTheSystem, ArrayList<Shop> shopsInTheSystem,
 			ArrayList<Order> incomingOrdersInTheSystem, User user_obj) {
@@ -193,21 +237,46 @@ public class IncomingOrderDAO extends OrderDAO {
 		return orders_ids;
 	}
 
-	// whatever was usergenerator for its factory in generator class
+	/**
+	 * Creates the IncomingOrder object and stores it in memory.
+	 * 
+	 * @param discount                  the discount on the incoming order
+	 * @param products_items            a 2-dimensional array; product ids in the
+	 *                                  first column, item ids corresponding to the
+	 *                                  product ones in the second column * @param
+	 *                                  productsInTheSystem
+	 * @param incomingOrdersInTheSystem all the incoming orders stored in the memory
+	 * @return the created IncomingOrder object
+	 */
 	public IncomingOrder submitIncomingOrder(double order_discount, int[][] products_items,
 			ArrayList<Product> productsInTheSystem, ArrayList<Order> incomingOrdersInTheSystem) {
 		double total_cost = calculateIncomingOrderTotalCost(products_items, productsInTheSystem);
 		Date date = Calendar.getInstance().getTime();
-//        String status = "Pending"; // because we just created the order
 		OrderFactory ofac = new OrderFactory();
+		// the final total_cost (calculated with the discount) is generated here!
 		IncomingOrder ino = (IncomingOrder) ofac.createOrder(total_cost, date, order_discount, "Incoming");
-//        IncomingOrder ino = new IncomingOrder(total_cost, date, order_discount); //the final total_cost (calculated with the discount) is generated here!
 		storeOrdersInMemory(incomingOrdersInTheSystem, ino);
 		return ino;
 	}
 
-
-	// submit-store-reduce
+	/**
+	 * Submits the incoming order, stores it with its details in the
+	 * allIncomingOrderInformationInTheSystem HashMap and reduces the stock.
+	 * 
+	 * @param discount                   the discount on the incoming order
+	 * @param salesman_id                the user_id of the user that submitted the
+	 *                                   order
+	 * @param shop_id                    the shop id of the shop for which the order
+	 *                                   is for
+	 * @param products_items             a 2-dimensional array; product ids in the
+	 *                                   first column, item ids corresponding to the
+	 *                                   product ones in the second column 
+	 * @param productsInTheSystem        the stored in the memory products
+	 * @param incomingOrdersInTheSystem  all the incoming orders stored in the
+	 *                                   memory
+	 * @param stockOfProductsInTheSystem the stock of the products stored in memory
+	 * @return the created IncomingOrder object
+	 */
 	public Order createNewIncomingOrder(double order_discount, int salesman_id, int shop_id, int[][] products_items,
 			ArrayList<Product> productsInTheSystem, ArrayList<Order> incomingOrdersInTheSystem,
 			ArrayList<Stock> stockOfProductsInTheSystem) {
@@ -222,12 +291,19 @@ public class IncomingOrderDAO extends OrderDAO {
 		}
 		salesman.add(salesman_id);
 		shop.add(shop_id);
-		StockDAO stdao = new StockDAO(); // [p1, p2, p3] [i1, i2, i3]
+		StockDAO stdao = new StockDAO();
 		storeAllOrderInformationInMemory(order, salesman, shop, products_ids, items_ids);
 		stdao.reduceStock(stockOfProductsInTheSystem, products_items);
 		return order;
 	}
 
+	/**
+	 * Return the order ids of the orders that were created for the shop that
+	 * corresponds to the given shop id.
+	 * 
+	 * @param shop_id the shop id of the shop for which the order is for
+	 * @return a list of the order ids
+	 */
 	public ArrayList<Integer> getOrdersByShopId(int shop_id) {
 		ArrayList<Integer> orders_ids = new ArrayList<Integer>();
 		for (IncomingOrder order : allIncomingOrderInformationInTheSystem.keySet()) {
@@ -238,21 +314,26 @@ public class IncomingOrderDAO extends OrderDAO {
 		}
 		return orders_ids;
 	}
-    
 
-	// total cost before discount
-	public double calculateIncomingOrderTotalCost(int products_items[][], ArrayList<Product> productsInTheSystem) { // before
-																													// discount
+	/**
+	 * Calculates the total cost of the order before the discount
+	 * 
+	 * @param products_items      a 2-dimensional array; product ids in the first
+	 *                            column, item ids corresponding to the product ones
+	 *                            in the second column
+	 * @param productsInTheSystem the stored in the memory products
+	 * @return order's the total cost
+	 */
+	public double calculateIncomingOrderTotalCost(int products_items[][], ArrayList<Product> productsInTheSystem) {
 		// products_items = N x 2
 		//
-		// product_id   |   item_quantity
+		// product_id | item_quantity
 		// _____________________________
-		// |     1             5          --> product+item
+		// | 1 5 --> product+item
 		// |
-		// |     2            10          --> product+item
+		// | 2 10 --> product+item
 		//
-		// ex.: products_items[0,0] & products_items[1,0] --> buy 20 items of product 1
-		// --> 20 * (price of 1) = cost
+		// ex.: products_items[0,0] & products_items[1,0] --> buy 20 items of product 1 --> 20 * (price of 1) = cost
 		double total_cost = 0.00;
 		ProductDAO pdao = new ProductDAO();
 		for (int i = 0; i < products_items.length; i++) { // for all the selected (by the salesman) products of that
@@ -264,9 +345,19 @@ public class IncomingOrderDAO extends OrderDAO {
 		return total_cost;
 	}
 
-    
-
-
+	/**
+	 * Submits the update to the incoming order.
+	 * 
+	 * @param products_items      a 2-dimensional array; product ids in the first
+	 *                            column, item ids corresponding to the product ones
+	 *                            in the second column
+	 * @param productsInTheSystem the stored in the memory products
+	 * @param shopsInTheSystem    the stored in the memory shops
+	 * @param order               the IncomingOrder object
+	 * @param s                   scanner
+	 * @param discount            the discount on the incoming order
+	 * @return true or false regarding submit
+	 */
 	public boolean submitUpdate(int[][] products_items, ArrayList<Product> productsInTheSystem,
 			ArrayList<Shop> shopsInTheSystem, IncomingOrder order, Scanner s, double discount) {
 		boolean delete_order = false;
@@ -287,13 +378,23 @@ public class IncomingOrderDAO extends OrderDAO {
 		FacadeOrder fo = new FacadeOrder();
 		return fo.approveFlow(s, "Submit", "Back");
 	}
-    
-    
-	// salesman cannot change shop_id, salesman_id, status, date. only --> products,
-	// items, discount
+
+	/**
+	 * Add products to an already existing incoming order.
+	 * 
+	 * @param order                      the IncomingOrder object
+	 * @param new_products_items         a 2-dimensional array; product ids in the
+	 *                                   first column, item ids corresponding to the
+	 *                                   product ones in the second column
+	 * @param productsInTheSystem        the stored in the memory products
+	 * @param shopsInTheSystem           the stored in the memory shops
+	 * @param s                          scanner
+	 * @param stockOfProductsInTheSystem the stock of the products stored in memory
+	 */
 	public void updateIncomingOrderAddProducts(IncomingOrder order, int new_products_items[][],
 			ArrayList<Product> productsInTheSystem, ArrayList<Shop> shopsInTheSystem, Scanner s,
-			ArrayList<Stock> stockOfProductsInTheSystem) {
+			ArrayList<Stock> stockOfProductsInTheSystem) { // salesman cannot change shop_id, salesman_id, status, date.
+															// only --> products, items, discount
 		// joint new with existing products-items
 		ArrayList<Integer> products = getAllIncomingOrderInformationInTheSystem().get(order).get(2);
 		ArrayList<Integer> items = getAllIncomingOrderInformationInTheSystem().get(order).get(3);
@@ -322,7 +423,14 @@ public class IncomingOrderDAO extends OrderDAO {
 		}
 	}
 
-
+	/**
+	 * Choose the products that will be deleted form an already existing order.
+	 * 
+	 * @param order               the IncomingOrder object
+	 * @param productsInTheSystem the stored in the memory products
+	 * @param scanner             scanner
+	 * @return the products ids of the products that will be deleted
+	 */
 	public ArrayList<Integer> chooseProductsToDelete(IncomingOrder order, ArrayList<Product> productsInTheSystem,
 			Scanner scanner) {
 		System.out.println("Enter the ID of products you want to delete (one each time):");
@@ -342,6 +450,15 @@ public class IncomingOrderDAO extends OrderDAO {
 		return products;
 	}
 
+	/**
+	 * Save temporarily the products and their items that will be deleted, so they can be used to increase the stock
+	 * later.
+	 * 
+	 * @param products the products ids of the products that will be deleted
+	 * @param order    the IncomingOrder object
+	 * @return the products ids and the item ids of the products that will be
+	 *         deleted
+	 */
 	public int[][] getDeletedFromOrderProducts(ArrayList<Integer> products, IncomingOrder order) {
 		int deletedFromOrderProducts[][] = new int[products.size()][2]; // i want to save them temporarily (the products
 																		// but now and their items) so i can increase
@@ -356,6 +473,14 @@ public class IncomingOrderDAO extends OrderDAO {
 		return deletedFromOrderProducts;
 	}
 
+	/**
+	 * Updates the item ids, of the deleted product ids, to be equal to 0.
+	 * 
+	 * @param products the products ids of the products that will be deleted
+	 * @param order    the IncomingOrder object
+	 * @return the products ids and the item ids of the products of the updated
+	 *         order
+	 */
 	public int[][] getUpdatedProductsItems(ArrayList<Integer> products, IncomingOrder order) {
 		int updated_products_items[][] = new int[getAllIncomingOrderInformationInTheSystem().get(order).get(2)
 				.size()][2];
@@ -369,8 +494,18 @@ public class IncomingOrderDAO extends OrderDAO {
 		}
 		return updated_products_items;
 	}
-    
-    
+
+	/**
+	 * Deletes the selected products from the given incoming order. If the user
+	 * deletes all the products the total order will be deleted.
+	 * 
+	 * @param order                      the IncomingOrder object
+	 * @param productsInTheSystem        the stored in the memory products
+	 * @param scanner                    scanner
+	 * @param shopsInTheSystem           the stored in the memory shops
+	 * @param stockOfProductsInTheSystem the stock of the products stored in memory
+	 * @return true or false whether the order was finally deleter or not
+	 */
 	public boolean updateIncomingOrderDeleteProducts(IncomingOrder order, ArrayList<Product> productsInTheSystem,
 			Scanner scanner, ArrayList<Shop> shopsInTheSystem, ArrayList<Stock> stockOfProductsInTheSystem) {
 
@@ -412,6 +547,13 @@ public class IncomingOrderDAO extends OrderDAO {
 		return order_finally_deleted;
 	}
 
+	/**
+	 * Deletes the selected incoming order.
+	 * 
+	 * @param order                      the IncomingOrder object
+	 * @param scanner                    scanner
+	 * @param stockOfProductsInTheSystem the stock of the products stored in memory
+	 */
 	public void updateIncomingOrderDelete(IncomingOrder order, Scanner scanner,
 			ArrayList<Stock> stockOfProductsInTheSystem) {
 		FacadeOrder fo = new FacadeOrder();
@@ -426,7 +568,15 @@ public class IncomingOrderDAO extends OrderDAO {
 			stdao.increaseStock(stockOfProductsInTheSystem, products_items);
 		}
 	}
-    
+
+	/**
+	 * Updates the discount in the selected order.
+	 * 
+	 * @param order               the IncomingOrder object
+	 * @param scanner             scanner
+	 * @param productsInTheSystem the stored in the memory products
+	 * @param shopsInTheSystem    the stored in the memory shops
+	 */
 	public void updateIncomingOrderDiscount(IncomingOrder order, Scanner scanner,
 			ArrayList<Product> productsInTheSystem, ArrayList<Shop> shopsInTheSystem) {
 		System.out.print("Enter the new discount:");
@@ -442,6 +592,13 @@ public class IncomingOrderDAO extends OrderDAO {
 		}
 	}
 
+	/**
+	 * Converts 2 ArrayLists into a 2 dimensional Table.
+	 * 
+	 * @param a represents the 1st column of the 2D table
+	 * @param b represents the 2nd column of the 2D table
+	 * @return a 2D integer table
+	 */
 	public int[][] convertArrayListInto2DTable(ArrayList<Integer> a, ArrayList<Integer> b) {
 		int products_items[][] = new int[a.size()][2];
 		for (int i = 0; i < a.size(); i++) {
@@ -450,8 +607,14 @@ public class IncomingOrderDAO extends OrderDAO {
 		}
 		return products_items;
 	}
-    
-    
+
+	/**
+	 * Updates the status of the incoming order. This authority have both the
+	 * warehouse staff and the manager.
+	 * 
+	 * @param order   the IncomingOrder object
+	 * @param scanner scanner
+	 */
 	public void updateIncomingOrderStatus(IncomingOrder order, Scanner scanner) {
 		if (order.getOrder_status().equals("Pending")) {
 			String status_options = "Packed or Shipped";
@@ -462,6 +625,14 @@ public class IncomingOrderDAO extends OrderDAO {
 		}
 	}
 
+	/**
+	 * Submits the updated status to the given incoming order.
+	 * 
+	 * @param order          the IncomingOrder object
+	 * @param scanner        scanner
+	 * @param status_options the available values with which the status can be
+	 *                       updated
+	 */
 	private void submitNewStatus(IncomingOrder order, Scanner scanner, String status_options) {
 		System.out.println("Enter new status\n(" + status_options + ")");
 		String new_status = null;
@@ -482,13 +653,10 @@ public class IncomingOrderDAO extends OrderDAO {
 		FacadeOrder fo = new FacadeOrder();
 		if (fo.approveFlow(scanner, "Submit", "Back")) {
 			ArrayList<ArrayList<Integer>> order_info = getAllIncomingOrderInformationInTheSystem().get(order);
-			getAllIncomingOrderInformationInTheSystem().remove(order); // i have to save my changes
-			order.setOrder_status(new_status); // in the hashmap !
+			getAllIncomingOrderInformationInTheSystem().remove(order); // i have to save my changes in the HashMap !
+			order.setOrder_status(new_status); 						  
 			getAllIncomingOrderInformationInTheSystem().put(order, order_info);
 		}
 	}
-    
 
 }
-
-

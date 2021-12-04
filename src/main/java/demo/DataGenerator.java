@@ -3,7 +3,11 @@ package demo;
 import java.util.ArrayList;
 import application.*;
 import applicationDAO.*;
-
+/**
+ * The data generator class.
+ * 
+ * @author marlenachatzigrigoriou
+ */
 public class DataGenerator {
 
 	SalesmanDAO sdao = new SalesmanDAO();
@@ -17,7 +21,6 @@ public class DataGenerator {
 	OutgoingOrderDAO oudao = new OutgoingOrderDAO();
 	ManagerDAO mdao = new ManagerDAO();
 
-	// almost facade
 	public ArrayList<User> usersGenerator() {
 		String fullnames[] = { "Lars Luxin", "Emily Bori", "Vasilis Salvan", "Pablo Ntakis", "Jakob Chilo",
 				"Fillipo Kreft", "Nicolo Ceni", "Mathiew Tjihssen", "Alex Chonas" };

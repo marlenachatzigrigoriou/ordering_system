@@ -1,4 +1,4 @@
-package Facade;
+package facade;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -8,16 +8,26 @@ import applicationDAO.*;
 
 import applicationDAO.WarehouseDAO;
 
-
+/**
+ * The Facade of the Demo class.
+ * 
+ * @author marlenachatzigrigoriou
+ */
 public class FacadeDemo {
-	
-    FacadeOrder fo = new FacadeOrder();
-    FacadeUser fu = new FacadeUser();
-    FacadeShop fs = new FacadeShop();
-    FacadeProduct fp = new FacadeProduct();
-    FacadeStock fst = new FacadeStock();
-    FacadeSupplier fsu = new FacadeSupplier();
     
+	/**
+	 * Implement salesman's interface.
+	 * 
+	 * @param user_obj User object
+	 * @param scanner scanner
+	 * @param productsInTheSystem        the stored in the memory products
+	 * @param usersInTheSystem           the stored in the memory users
+	 * @param shopsInTheSystem           the stored in the memory shops
+	 * @param incomingOrdersInTheSystem  all the incoming orders stored in the
+	 *                                   memory
+	 * @param suppliersInTheSystem       the stored in the memory suppliers
+	 * @param stockOfProductsInTheSystem the stock of the products stored in memory
+	 */
 	public void salesmanInterface(User user_obj, Scanner scanner, ArrayList<Product> productsInTheSystem,
 			ArrayList<User> usersInTheSystem, ArrayList<Shop> shopsInTheSystem,
 			ArrayList<Order> incomingOrdersInTheSystem, ArrayList<Supplier> suppliersInTheSystem, ArrayList<Stock> stockOfProductsInTheSystem) {
@@ -45,6 +55,21 @@ public class FacadeDemo {
 		}
 	}
 	
+	/**
+	 * Implement warehouse staff's interface.
+	 * 
+	 * @param user_obj User object
+	 * @param scanner scanner
+	 * @param productsInTheSystem        the stored in the memory products
+	 * @param usersInTheSystem           the stored in the memory users
+	 * @param shopsInTheSystem           the stored in the memory shops
+	 * @param outgoingOrdersInTheSystem  all the outgoing orders stored in the
+	 *                                   memory
+	 * @param incomingOrdersInTheSystem  all the incoming orders stored in the
+	 *                                   memory
+	 * @param suppliersInTheSystem       the stored in the memory suppliers
+	 * @param stockOfProductsInTheSystem the stock of the products stored in memory
+	 */
 	public void warehouseInterface(User user_obj, Scanner scanner, ArrayList<Product> productsInTheSystem,
 			ArrayList<User> usersInTheSystem, ArrayList<Shop> shopsInTheSystem,
 			ArrayList<Order> outgoingOrdersInTheSystem, ArrayList<Order> incomingOrdersInTheSystem,
@@ -88,6 +113,21 @@ public class FacadeDemo {
 		}
 	}
 	
+	/**
+	 * Implement manager's interface.
+	 * 
+	 * @param user_obj User object
+	 * @param scanner scanner
+	 * @param productsInTheSystem        the stored in the memory products
+	 * @param usersInTheSystem           the stored in the memory users
+	 * @param shopsInTheSystem           the stored in the memory shops
+	 * @param outgoingOrdersInTheSystem  all the outgoing orders stored in the
+	 *                                   memory
+	 * @param incomingOrdersInTheSystem  all the incoming orders stored in the
+	 *                                   memory
+	 * @param suppliersInTheSystem       the stored in the memory suppliers
+	 * @param stockOfProductsInTheSystem the stock of the products stored in memory
+	 */
 	public void managerInterface(User user_obj, Scanner scanner, ArrayList<Product> productsInTheSystem,
 			ArrayList<User> usersInTheSystem, ArrayList<Shop> shopsInTheSystem,
 			ArrayList<Order> outgoingOrdersInTheSystem, ArrayList<Order> incomingOrdersInTheSystem,
@@ -143,6 +183,19 @@ public class FacadeDemo {
 		}
 	}
 	
+	/**
+	 * Prints system's database.
+	 * 
+	 * @param productsInTheSystem        the stored in the memory products
+	 * @param usersInTheSystem           the stored in the memory users
+	 * @param shopsInTheSystem           the stored in the memory shops
+	 * @param outgoingOrdersInTheSystem  all the outgoing orders stored in the
+	 *                                   memory
+	 * @param incomingOrdersInTheSystem  all the incoming orders stored in the
+	 *                                   memory
+	 * @param suppliersInTheSystem       the stored in the memory suppliers
+	 * @param stockOfProductsInTheSystem the stock of the products stored in memory
+	 */
 	public void printGeneratedData(ArrayList<User> usersInTheSystem, ArrayList<Shop> shopsInTheSystem,
 			ArrayList<Order> incomingOrdersInTheSystem, ArrayList<Product> productsInTheSystem,
 			ArrayList<Stock> stockOfProductsInTheSystem, ArrayList<Supplier> suppliersInTheSystem,
@@ -195,5 +248,12 @@ public class FacadeDemo {
 		System.out.println(
 				"_____________________________________________________________________________________________________");
 	}
+	
+    FacadeOrder fo = new FacadeOrder();
+    FacadeUser fu = new FacadeUser();
+    FacadeShop fs = new FacadeShop();
+    FacadeProduct fp = new FacadeProduct();
+    FacadeStock fst = new FacadeStock();
+    FacadeSupplier fsu = new FacadeSupplier();
 
 }

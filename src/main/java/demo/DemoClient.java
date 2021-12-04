@@ -3,11 +3,15 @@ package demo;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Facade.FacadeDemo;
-import Facade.FacadeUser;
 import application.*;
+import facade.FacadeDemo;
+import facade.FacadeUser;
 
-
+/**
+ * The demo class of our system.
+ * 
+ * @author marlenachatzigrigoriou
+ */
 public class DemoClient {
 
 	public static void main(String[] args) {
@@ -41,9 +45,9 @@ public class DemoClient {
 			String exit = scanner.nextLine();
 
 			if (!exit.equals("0")) {
-				System.out.println("Login");
+				System.out.println("Login"); 
 				FacadeUser fu = new FacadeUser();
-				User user_obj = fu.login(scanner, usersInTheSystem);
+				User user_obj = fu.login(usersInTheSystem);
 				String user_category = user_obj.getCategory();
 
 				if (user_category.equals("Salesman") && !action.equals("logout")) {

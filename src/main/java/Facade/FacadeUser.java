@@ -1,18 +1,37 @@
-package Facade;
+package facade;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.Matcher; 
-import java.util.regex.Pattern; 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import application.*;
 import applicationDAO.*;
 
+/**
+ * The FacadeUser class contains the options displayed to system's users.
+ * 
+ * @author marlenachatzigrigoriou
+ */
 public class FacadeUser {
 
+	/**
+	 * IncomingOrderDAO object.
+	 */
 	IncomingOrderDAO iodao = new IncomingOrderDAO();
+
+	/**
+	 * OutgoingOrderDAO object.
+	 */
 	OutgoingOrderDAO oudao = new OutgoingOrderDAO();
 
+	/**
+	 * Create a new user and stores him in memory.
+	 * 
+	 * @param scanner          scanner
+	 * @param usersInTheSystem the stored in the memory users
+	 * @return the list of users stored in memory
+	 */
 	public ArrayList<User> createNewUser(Scanner scanner, ArrayList<User> usersInTheSystem) {
 		System.out.println("Enter user's full name:");
 		String name = scanner.nextLine();
@@ -28,10 +47,27 @@ public class FacadeUser {
 		return usersInTheSystem;
 	}
 
-	public User login(Scanner scanner, ArrayList<User> usersInTheSystem) {
-		return UserDAO.login(scanner, usersInTheSystem);
+	/**
+	 * Log the user in the system.
+	 * 
+	 * @param usersInTheSystem the stored in the memory users
+	 * @return the User object
+	 */
+	public User login(ArrayList<User> usersInTheSystem) {
+		return UserDAO.login(usersInTheSystem);
 	}
 
+	/**
+	 * Calls the method that prints all the orders that were submitted by the given
+	 * salesman.
+	 * 
+	 * @param productsInTheSystem       the stored in the memory products
+	 * @param usersInTheSystem          the stored in the memory users
+	 * @param shopsInTheSystem          the stored in the memory shops
+	 * @param incomingOrdersInTheSystem all the incoming orders stored in the memory
+	 * @param user_obj                  User object
+	 * @return the order ids of the orders submitted by the given salesman
+	 */
 	public ArrayList<Integer> listOrdersFromSalemanUser(ArrayList<Product> productsInTheSystem,
 			ArrayList<User> usersInTheSystem, ArrayList<Shop> shopsInTheSystem,
 			ArrayList<Order> incomingOrdersInTheSystem, User user_obj) {
@@ -40,12 +76,28 @@ public class FacadeUser {
 
 	}
 
+	/**
+	 * Prints a list of the outgoing orders submitted by the given warehouse user.
+	 * 
+	 * @param productsInTheSystem       the stored in the memory products
+	 * @param usersInTheSystem          the stored in the memory users
+	 * @param suppliersInTheSystem      the stored in the memory suppliers
+	 * @param outgoingOrdersInTheSystem all the outgoing orders stored in the memory
+	 * @param user_obj                  User object
+	 */
 	public void listOrdersFromWarehouseUser(ArrayList<Product> productsInTheSystem, ArrayList<User> usersInTheSystem,
 			ArrayList<Supplier> suppliersInTheSystem, ArrayList<Order> outgoingOrdersInTheSystem, User user_obj) {
 		oudao.listOrdersFromWarehouseUser(productsInTheSystem, usersInTheSystem, suppliersInTheSystem,
 				outgoingOrdersInTheSystem, user_obj);
 	}
 
+	/**
+	 * Check and insert valid password.
+	 * 
+	 * @param scanner scanner
+	 * @param message message displayed to re-enter input
+	 * @return valid input
+	 */
 	public String enterValidPassword(Scanner scanner, String message) {
 		String subba = null;
 		boolean repeat = true;
@@ -69,7 +121,13 @@ public class FacadeUser {
 		}
 		return subba;
 	}
-	
+
+	/**
+	 * Check and insert valid user's department input.
+	 * 
+	 * @param scanner scanner
+	 * @return valid input
+	 */
 	public String chooseDep(Scanner scanner) {
 		String subba = null;
 		boolean repeat = true;

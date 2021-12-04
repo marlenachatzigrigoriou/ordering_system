@@ -4,7 +4,12 @@ import java.util.ArrayList;
 
 import application.Manager;
 import application.User;
-
+/**
+ * Manager DAO class that contains the process of the Manager
+ * objects.
+ * 
+ * @author marlenachatzigrigoriou
+ */
 public class ManagerDAO extends UserDAO {
 
 	@Override

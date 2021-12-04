@@ -1,15 +1,13 @@
 package applicationDAO;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.ExpectedException;
 
@@ -110,43 +108,38 @@ public class SupplierDAOTest {
 	    Assert.assertEquals(0, sudao.chooseSupplier(suppliersInTheSystem));
 	}
 	
-//	@Rule
-//	public ExpectedException thrown = ExpectedException.none();
-//	@Test
-//	public void chooseSupplierWrongIdTest() {
-//		
-//		
-//	    StringBuilder sb = new StringBuilder();
-//	    sb.append("5");
-//	    String data = sb.toString();
-//	    System.setIn(new ByteArrayInputStream(data.getBytes()));
-//		thrown.expect(Exception.class);
-//		thrown.expectMessage("ERROR: you should enter an ID from the ones already on the screen.");
-//	    sudao.chooseSupplier(suppliersInTheSystem);
-////	    StringBuilder sb1 = new StringBuilder();
-////	    sb1.append("5");
-////	    data = sb1.toString();
-////	    System.setIn(new ByteArrayInputStream(data.getBytes()));
-//	}
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 	
-//    @Test
-//    public void testIsCompramised() {
-//        this.thrown.expect(Exception.class);
-////        final MyClass instance = new MyClass();
-////        sudao.isCompramised(input);
-//	    StringBuilder sb = new StringBuilder();
-//	    sb.append("5");
-//	    String data = sb.toString();
-//	    System.setIn(new ByteArrayInputStream(data.getBytes()));
-//	    sudao.chooseSupplier(suppliersInTheSystem);
-//
-//    }
-//
-//    @Parameters(name = "test for {0}")
-//    public static Iterable<Object[]> data() {
-//        return Arrays.asList(new Object[][] { {null}, {Object.class} });
-//    }
+	@Test
+	public void testValidSupplier() {
+		ArrayList<Integer> suppliers_ids = new ArrayList<Integer>();
+		suppliers_ids.add(0);
+		suppliers_ids.add(1);
+		Assert.assertEquals(true, sudao.validSupplier(suppliers_ids, 0));
+	}
 	
-
+	@Rule
+	public final SystemErrRule systemErrRule = new SystemErrRule().enableLog();
+	
+	@Test
+	public void testValidSupplierInvalid() {
+		ArrayList<Integer> suppliers_ids = new ArrayList<Integer>();
+		suppliers_ids.add(0);
+		suppliers_ids.add(1);
+		sudao.validSupplier(suppliers_ids, 4);
+		Assert.assertEquals(
+				"ERROR: you should enter an ID from the ones already on the screen.",
+				systemErrRule.getLog().trim());
+	}
+	
+	@Test
+	public void testValidSupplierInvalid2() {
+		ArrayList<Integer> suppliers_ids = new ArrayList<Integer>();
+		suppliers_ids.add(0);
+		suppliers_ids.add(1);
+		Assert.assertEquals(false, sudao.validSupplier(suppliers_ids, 4));
+	
+	}
 
 }

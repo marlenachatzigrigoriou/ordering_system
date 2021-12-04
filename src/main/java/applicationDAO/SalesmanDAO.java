@@ -3,12 +3,16 @@ package applicationDAO;
 import java.util.ArrayList;
 import application.Salesman;
 import application.User;
-
+/**
+ * Salesman DAO class that contains the process of the Salesman
+ * objects.
+ * 
+ * @author marlenachatzigrigoriou
+ */
 public class SalesmanDAO extends UserDAO {
 
 	@Override
 	public User getUserByUserId(int user_id, ArrayList<User> usersInTheSystem) {
-
 		for (User user : usersInTheSystem) {
 			if (user.getCategory().equals("Salesman")) {
 				if (user.getUser_id() == user_id) {

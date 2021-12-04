@@ -2,6 +2,7 @@ package applicationDAO;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 
@@ -27,7 +28,7 @@ public class OutgoingOrderDAOTest {
 		Order.setCount(0);
 		Supplier.setCount(0);
 		Product.setCount(0);
-		User.setCount(0);
+		User.setCount(0); 
 		productsInTheSystem = dg.productsGenerator();
 		suppliersInTheSystem = dg.supplierGenerator();
 		usersInTheSystem = dg.usersGenerator();
@@ -116,8 +117,10 @@ public class OutgoingOrderDAOTest {
 	public void testViewOutgoingOrderInformation() {
 		oudao.viewOutgoingOrderInformation((OutgoingOrder) outgoingOrdersInTheSystem.get(0), productsInTheSystem,
 				usersInTheSystem, suppliersInTheSystem);
+		Date date = outgoingOrdersInTheSystem.get(0).getOrder_date(); //because the seconds are different when i call the Calendar method in the viewOutgoingOrderInformation 
+																	// and when i call it in the assert
 		Assert.assertEquals(
-				"ID:  0 | Status: Pending, Date: " + Calendar.getInstance().getTime()
+				"ID:  0 | Status: Pending, Date: " + date
 						+ ", Total_cost: 1750.0€ (discount factored in total cost: 0.0)\r\n"
 						+ "     Products           Items           Cost\r\n"
 						+ "    Silver Pan 893           50           1000.0€\r\n"
@@ -132,8 +135,9 @@ public class OutgoingOrderDAOTest {
 		User user_obj = usersInTheSystem.get(5);
 		oudao.listOrdersFromWarehouseUser(productsInTheSystem, usersInTheSystem, suppliersInTheSystem,
 				outgoingOrdersInTheSystem, user_obj);
+		Date date = outgoingOrdersInTheSystem.get(0).getOrder_date();
 		Assert.assertEquals("Orders submitted by me: Fillipo Kreft  5\r\n" + "ID:  0 | Status: Pending, Date: "
-				+ Calendar.getInstance().getTime() + ", Total_cost: 1750.0€ (discount factored in total cost: 0.0)\r\n"
+				+  date + ", Total_cost: 1750.0€ (discount factored in total cost: 0.0)\r\n"
 				+ "     Products           Items           Cost\r\n"
 				+ "    Silver Pan 893           50           1000.0€\r\n"
 				+ "    Silver Pro Pan 999           30           750.0€\r\n"

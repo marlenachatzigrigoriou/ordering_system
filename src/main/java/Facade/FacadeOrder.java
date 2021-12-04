@@ -1,4 +1,4 @@
-package Facade;
+package facade;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -6,24 +6,26 @@ import java.util.Scanner;
 import application.*;
 import applicationDAO.*;
 
+/**
+ * The Facade of the Order class.
+ * 
+ * @author marlenachatzigrigoriou
+ */
 public class FacadeOrder {
 	
-	SalesmanDAO sdao = new SalesmanDAO();
-	WarehouseDAO wdao = new WarehouseDAO();
-	ManagerDAO mdao = new ManagerDAO();
-	ShopDAO shdao = new ShopDAO();
-	ProductDAO pdao = new ProductDAO();
-	IncomingOrderDAO iodao = new IncomingOrderDAO();
-	StockDAO stdao = new StockDAO();
-	SupplierDAO sudao = new SupplierDAO();
-	OutgoingOrderDAO oudao = new OutgoingOrderDAO();
-    FacadeUser fu = new FacadeUser();
-    FacadeShop fs = new FacadeShop();
-    FacadeProduct fp = new FacadeProduct();
-    FacadeStock fst = new FacadeStock();
-    FacadeSupplier fsu = new FacadeSupplier();
-    
-
+	/**
+	 * Create an incoming order.
+	 * 
+	 * @param productsInTheSystem        the stored in the memory products
+	 * @param usersInTheSystem           the stored in the memory users
+	 * @param shopsInTheSystem           the stored in the memory shops
+	 * @param incomingOrdersInTheSystem  all the incoming orders stored in the
+	 *                                   memory
+	 * @param stockOfProductsInTheSystem the stock of the products stored in memory
+	 * @param scanner                    scanner
+	 * @param user_obj                   User object
+	 * @param suppliersInTheSystem       the stored in the memory suppliers
+	 */
 	public void orderBySalesman(ArrayList<Product> productsInTheSystem, ArrayList<User> usersInTheSystem,
 			ArrayList<Shop> shopsInTheSystem, ArrayList<Order> incomingOrdersInTheSystem,
 			ArrayList<Stock> stockOfProductsInTheSystem, Scanner scanner, User user_obj,
@@ -31,8 +33,8 @@ public class FacadeOrder {
 		int shop_id = shdao.chooseShop(shopsInTheSystem, scanner);
 
 		System.out.println("Choose the product(s) and the items for each:\n ");
-		int[][] products_items = fp.addProductsInOrder(scanner, productsInTheSystem, user_obj, stockOfProductsInTheSystem,
-				incomingOrdersInTheSystem, suppliersInTheSystem);
+		int[][] products_items = fp.addProductsInOrder(scanner, productsInTheSystem, user_obj,
+				stockOfProductsInTheSystem, incomingOrdersInTheSystem, suppliersInTheSystem);
 
 		System.out.print("Enter possible discount: ");
 		double discount = iodao.enterDiscount(scanner);
@@ -48,10 +50,19 @@ public class FacadeOrder {
 		}
 	}
 
+	/**
+	 * Create an outgoing order.
+	 * 
+	 * @param productsInTheSystem       the stored in the memory products
+	 * @param usersInTheSystem          the stored in the memory users
+	 * @param suppliersInTheSystem      the stored in the memory suppliers
+	 * @param incomingOrdersInTheSystem all the outgoing orders stored in the memory
+	 * @param scanner                   scanner
+	 * @param user_obj                  User object
+	 */
 	public void orderByWarehouse(ArrayList<Product> productsInTheSystem, ArrayList<User> usersInTheSystem,
 			ArrayList<Supplier> suppliersInTheSystem, ArrayList<Order> outgoingOrdersInTheSystem, Scanner scanner,
 			User user_obj) {
-		// these are the suppliers and the products they can supply you SYSOUT
 		System.out.println("Table of products and their corresponding suppliers:");
 		sudao.showSuppliersAndTheirProducts(productsInTheSystem, suppliersInTheSystem);
 		System.out.println();
@@ -60,7 +71,7 @@ public class FacadeOrder {
 		System.out.println();
 		int supplier_id = sudao.chooseSupplier(suppliersInTheSystem);
 		// BASED ON SUPPLIER
-		System.out.println("Choose the product(s) and the items for each:\n "); 
+		System.out.println("Choose the product(s) and the items for each:\n ");
 		int[][] products_items = fp.addProductsInOrder(scanner, productsInTheSystem, user_obj, null,
 				outgoingOrdersInTheSystem, suppliersInTheSystem);
 		System.out.println("\nOrder Summary: ");
@@ -74,6 +85,19 @@ public class FacadeOrder {
 		// we just have to make an outgoing order, too, in this case!
 	}
 
+	/**
+	 * Edit an incoming order as a salesman.
+	 * 
+	 * @param s                          scanner
+	 * @param productsInTheSystem        the stored in the memory products
+	 * @param usersInTheSystem           the stored in the memory users
+	 * @param shopsInTheSystem           the stored in the memory shops
+	 * @param incomingOrdersInTheSystem  all the incoming orders stored in the
+	 *                                   memory
+	 * @param stockOfProductsInTheSystem the stock of the products stored in memory
+	 * @param user_obj                   User object
+	 * @param suppliersInTheSystem       the stored in the memory suppliers
+	 */
 	public void editIncomingOrderSalesman(ArrayList<Order> incomingOrdersInTheSystem, User user_obj,
 			ArrayList<Product> productsInTheSystem, ArrayList<User> usersInTheSystem, ArrayList<Shop> shopsInTheSystem,
 			Scanner s, ArrayList<Supplier> suppliersInTheSystem, ArrayList<Stock> stockOfProductsInTheSystem) {
@@ -128,7 +152,15 @@ public class FacadeOrder {
 
 		}
 	}
-	
+
+	/**
+	 * Choose between the options in the menu.
+	 * 
+	 * @param scanner     scanner
+	 * @param upper_limit upper number limit of options
+	 * @param lower_limit lower number limit of options
+	 * @return the choosen option
+	 */
 	public int chooseOption(Scanner scanner, int upper_limit, int lower_limit) {
 		boolean repeat = true;
 		int choice = 0;
@@ -136,7 +168,7 @@ public class FacadeOrder {
 			try {
 				choice = scanner.nextInt();
 				scanner.nextLine();
-				if ((choice <= upper_limit && choice >= lower_limit) && choice == (int)choice) {
+				if ((choice <= upper_limit && choice >= lower_limit) && choice == (int) choice) {
 					repeat = false;
 					return choice;
 				} else {
@@ -149,6 +181,19 @@ public class FacadeOrder {
 		return choice;
 	}
 
+	/**
+	 * Edit an incoming order as a warehouse employee or the manager.
+	 * 
+	 * @param productsInTheSystem        the stored in the memory products
+	 * @param usersInTheSystem           the stored in the memory users
+	 * @param shopsInTheSystem           the stored in the memory shops
+	 * @param incomingOrdersInTheSystem  all the incoming orders stored in the
+	 *                                   memory
+	 * @param stockOfProductsInTheSystem the stock of the products stored in memory
+	 * @param user_obj                   User object
+	 * @param suppliersInTheSystem       the stored in the memory suppliers
+	 * @param s                          scanner
+	 */
 	public void editIncomingOrderWM(ArrayList<Order> incomingOrdersInTheSystem, User user_obj,
 			ArrayList<Product> productsInTheSystem, ArrayList<User> usersInTheSystem, ArrayList<Shop> shopsInTheSystem,
 			Scanner s, ArrayList<Supplier> suppliersInTheSystem, ArrayList<Stock> stockOfProductsInTheSystem) {
@@ -203,6 +248,13 @@ public class FacadeOrder {
 		}
 	}
 
+	/**
+	 * Select the incoming order to update .
+	 * 
+	 * @param s                         scanner
+	 * @param incomingOrdersInTheSystem all the incoming orders stored in the memory
+	 * @return the Incoming order object
+	 */
 	public IncomingOrder incomingOrderToUpdate(Scanner s, ArrayList<Order> incomingOrdersInTheSystem) {
 		System.out.println("I want to edit the order: ");
 		int order_id = chooseOrder(incomingOrdersInTheSystem, s);
@@ -210,7 +262,14 @@ public class FacadeOrder {
 		IncomingOrder io = (IncomingOrder) iodao.getOrderByOrderId(order_id, incomingOrdersInTheSystem);
 		return io;
 	}
-	
+
+	/**
+	 * Choose order.
+	 * 
+	 * @param incomingOrdersInTheSystem all the incoming orders stored in the memory
+	 * @param scanner                   scanner
+	 * @return order id
+	 */
 	public int chooseOrder(ArrayList<Order> incomingOrdersInTheSystem, Scanner scanner) {
 		ArrayList<Integer> orders_ids = new ArrayList<Integer>();
 		for (Order o : incomingOrdersInTheSystem) {
@@ -234,7 +293,15 @@ public class FacadeOrder {
 		}
 		return order_id;
 	}
-	
+
+	/**
+	 * Approve the flow.
+	 * 
+	 * @param scanner scanner
+	 * @param choice1 choice
+	 * @param choice2 choice
+	 * @return boolean value of approving the flow or not
+	 */
 	public boolean approveFlow(Scanner scanner, String choice1, String choice2) {
 		String subba;
 		boolean repeat = true;
@@ -258,21 +325,51 @@ public class FacadeOrder {
 		}
 		return false;
 	}
-	
-    public void listAllOutgoingOrderInformation(ArrayList<Product> productsInTheSystem,
-			ArrayList<User> usersInTheSystem, ArrayList<Supplier> suppliersInTheSystem ) { //order+product+items+shop+warehouse
-		for (OutgoingOrder i : oudao.getAllOutgoingOrderInformationInTheSystem().keySet()){
-			System.out.println("____   ____   ____   ____   ____   ____");            
+
+	/**
+	 * Prints all outgoing orders.
+	 * 
+	 * @param productsInTheSystem  the stored in the memory products
+	 * @param usersInTheSystem     the stored in the memory users
+	 * @param suppliersInTheSystem the stored in the memory suppliers
+	 */
+	public void listAllOutgoingOrderInformation(ArrayList<Product> productsInTheSystem,
+			ArrayList<User> usersInTheSystem, ArrayList<Supplier> suppliersInTheSystem) { // order+product+items+shop+warehouse
+		for (OutgoingOrder i : oudao.getAllOutgoingOrderInformationInTheSystem().keySet()) {
+			System.out.println("____   ____   ____   ____   ____   ____");
 			oudao.viewOutgoingOrderInformation(i, productsInTheSystem, usersInTheSystem, suppliersInTheSystem);
 		}
 	}
-		
+
+	/**
+	 * Prints all orders from shops.
+	 * 
+	 * @param productsInTheSystem       the stored in the memory products
+	 * @param usersInTheSystem          the stored in the memory users
+	 * @param shopsInTheSystem          the stored in the memory shops
+	 * @param incomingOrdersInTheSystem all the incoming orders stored in the memory
+	 * @param scanner                   scanner
+	 */
 	public void listOrdersFromShop(ArrayList<Product> productsInTheSystem, ArrayList<User> usersInTheSystem,
 			ArrayList<Shop> shopsInTheSystem, ArrayList<Order> incomingOrdersInTheSystem, Scanner scanner) {
 		IncomingOrderDAO iodao = new IncomingOrderDAO();
-		iodao.listOrdersFromShop(productsInTheSystem, usersInTheSystem, shopsInTheSystem, incomingOrdersInTheSystem, scanner);
+		iodao.listOrdersFromShop(productsInTheSystem, usersInTheSystem, shopsInTheSystem, incomingOrdersInTheSystem,
+				scanner);
 	}
-    
-
+	
+	SalesmanDAO sdao = new SalesmanDAO();
+	WarehouseDAO wdao = new WarehouseDAO();
+	ManagerDAO mdao = new ManagerDAO();
+	ShopDAO shdao = new ShopDAO();
+	ProductDAO pdao = new ProductDAO();
+	IncomingOrderDAO iodao = new IncomingOrderDAO();
+	StockDAO stdao = new StockDAO();
+	SupplierDAO sudao = new SupplierDAO();
+	OutgoingOrderDAO oudao = new OutgoingOrderDAO();
+	FacadeUser fu = new FacadeUser();
+	FacadeShop fs = new FacadeShop();
+	FacadeProduct fp = new FacadeProduct();
+	FacadeStock fst = new FacadeStock();
+	FacadeSupplier fsu = new FacadeSupplier();
 
 }

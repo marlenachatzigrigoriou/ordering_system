@@ -4,7 +4,12 @@ import java.util.ArrayList;
 
 import application.User;
 import application.Warehouse;
-
+/**
+ * Warehouse DAO class that contains the process of the Warehouse
+ * objects.
+ * 
+ * @author marlenachatzigrigoriou
+ */
 public class WarehouseDAO extends UserDAO {
 
 	@Override
