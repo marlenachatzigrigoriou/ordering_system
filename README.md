@@ -16,10 +16,12 @@ Requirements for the software and other tools to build, test and push
 1. Clone the repository to a local folder:
 
           git clone https://github.com/marlenachatzigrigoriou/ordering_system.git
-2. Open the command line in your cloned reporitory
-3. Build the executable Java application with: 
+2. Open the command line in your cloned reporitory and build the executable Java application with:
+          
+          mvn package
+3. Create the Jacoco report: 
       
-          mvn package jacoco:report
+          mvn jacoco:report
 4. Browse ordering_system (your current) folder: ..\target\site\jacoco and click on index.html .
    
    Now you can see on your browser the jacoco code coverage report.
